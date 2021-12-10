@@ -96,5 +96,5 @@ service nginx restart
 # Instal SSL
 if [ "$SSL" -eq "1" ]; then
   echo '  > Install SSL...'
-  certbot --nginx --redirect -d ${DOMAIN} -d www.${DOMAIN} --register-unsafely-without-email --non-interactive --agree-tos
+  certbot --nginx --redirect --expand -d ${DOMAIN} -d www.${DOMAIN} --register-unsafely-without-email --non-interactive --agree-tos
 fi
