@@ -63,7 +63,7 @@ done
 echo '  > Add Site ...'
 cat > /etc/nginx/sites-available/${DOMAIN}.conf <<EOL
 server {
-    server_name $DOMAIN;
+    server_name $DOMAIN www.$DOMAIN;
     proxy_set_header Host \$host;
     proxy_set_header X-Real-IP \$remote_addr;
     proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
