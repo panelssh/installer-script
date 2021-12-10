@@ -47,7 +47,7 @@ done
 echo '  > Add Site ...'
 cat > /etc/nginx/sites-available/${DOMAIN}.conf <<EOL
 server {
-    server_name $DOMAIN;
+    server_name $DOMAIN www.$DOMAIN;
 
     location / {
       return 403;
