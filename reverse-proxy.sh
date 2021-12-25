@@ -62,7 +62,7 @@ done
 # Add Site
 echo '  > Add Site ...'
 
-if [ "$WWW" -eq "1" ]
+if [ "$WWW" -eq "1" ]; then
   SERVER_NAME="$DOMAIN www.$DOMAIN"
 else
   SERVER_NAME=$DOMAIN
@@ -103,7 +103,7 @@ service nginx restart
 # Instal SSL
 echo '  > Install SSL...'
 
-if [ "$WWW" -eq "1" ]
+if [ "$WWW" -eq "1" ]; then
   certbot --nginx --redirect --expand -d ${DOMAIN} -d www.${DOMAIN} --register-unsafely-without-email --non-interactive --agree-tos
 else
   certbot --nginx --redirect -d ${DOMAIN} --register-unsafely-without-email --non-interactive --agree-tos
