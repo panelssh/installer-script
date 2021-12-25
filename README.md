@@ -43,13 +43,14 @@ bash <(curl -sL https://git.io/panelssh-init-domain)
 
 Argument:
 - `-d`, `--domain`: Domain
+- `-w`, `--www`: Append www
 - `-h`, `--help`: Help
 
 Example:
 ```bash
-bash <(curl -sL https://git.io/panelssh-init-domain) -d example.com
+bash <(curl -sL https://git.io/panelssh-init-domain) -d example.com -w 1
 # with long flags
-bash <(curl -sL https://git.io/panelssh-init-domain) --domain example.com
+bash <(curl -sL https://git.io/panelssh-init-domain) --domain example.com -www 1
 ```
 
 ## Reverse Proxy
@@ -62,12 +63,12 @@ bash <(curl -sL https://git.io/panelssh-reverse-proxy)
 Argument:
 - `-d`, `--domain`: Domain
 - `-p`, `--port`: Proxy Port
-- `-s`, `--ssl`: Install SSL
+- `-w`, `--www`: Append www
 - `-h`, `--help`: Help
 
 Example:
 ```bash
-bash <(curl -sL https://git.io/panelssh-reverse-proxy) -d example.com -p 8080
+bash <(curl -sL https://git.io/panelssh-reverse-proxy) -d example.com -p 8080 -w 1
 # with long flags
-bash <(curl -sL https://git.io/panelssh-reverse-proxy) --domain example.com --port 8080
+bash <(curl -sL https://git.io/panelssh-reverse-proxy) --domain example.com --port 8080 -www 1
 ```

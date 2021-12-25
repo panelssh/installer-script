@@ -22,11 +22,16 @@ echo ''
 
 # init vars
 DOMAIN="panelssh.com"
+WWW=0
 
 while [ $# -gt 0 ]; do
   case "$1" in
     -d|--domain)
       DOMAIN="$2"
+      ;;
+
+    -w|--www)
+      WWW=$2
       ;;
 
     -h|--help)
@@ -36,6 +41,8 @@ while [ $# -gt 0 ]; do
       echo "OPTIONS:"
       echo "    -d, --domain <value>  Set Domain"
       echo "                          [default: $DOMAIN]"
+      echo "    -w, --www <value>     Append www"
+      echo "                          [default: $WWW]"
       exit 1
       ;;
   esac
@@ -45,9 +52,16 @@ done
 
 # Add Site
 echo '  > Add Site ...'
+
+if [ "$WWW" -eq "1" ]
+  SERVER_NAME="$DOMAIN www.$DOMAIN"
+else
+  SERVER_NAME=$DOMAIN
+fi
+
 cat > /etc/nginx/sites-available/${DOMAIN}.conf <<EOL
 server {
-    server_name $DOMAIN www.$DOMAIN;
+    server_name $SERVER_NAME;
 
     location / {
       return 403;
@@ -65,4 +79,8 @@ service nginx restart
 
 # Instal SSL
 echo '  > Install SSL...'
-certbot --nginx --redirect --expand -d ${DOMAIN} -d www.${DOMAIN} --register-unsafely-without-email --non-interactive --agree-tos
+if [ "$WWW" -eq "1" ]
+  certbot --nginx --redirect --expand -d ${DOMAIN} -d www.${DOMAIN} --register-unsafely-without-email --non-interactive --agree-tos
+else
+  certbot --nginx --redirect -d ${DOMAIN} --register-unsafely-without-email --non-interactive --agree-tos
+fi

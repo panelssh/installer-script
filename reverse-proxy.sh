@@ -23,7 +23,7 @@ echo ''
 # init vars
 DOMAIN="panelssh.com"
 PORT=8000
-SSL=1
+WWW=0
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -35,8 +35,8 @@ while [ $# -gt 0 ]; do
       PORT="$2"
       ;;
 
-    -s|--ssl)
-      SSL=$2
+    -w|--www)
+      WWW=$2
       ;;
 
     -h|--help)
@@ -49,8 +49,8 @@ while [ $# -gt 0 ]; do
       echo "                          [default: $DOMAIN]"
       echo "    -p, --port <value>    Set port"
       echo "                          [default: $PORT]"
-      echo "    -s, --ssl <value>     Install SSL"
-      echo "                          [default: $SSL]"
+      echo "    -w, --www <value>     Append www"
+      echo "                          [default: $WWW]"
       echo ""
       exit 1
       ;;
@@ -61,9 +61,16 @@ done
 
 # Add Site
 echo '  > Add Site ...'
+
+if [ "$WWW" -eq "1" ]
+  SERVER_NAME="$DOMAIN www.$DOMAIN"
+else
+  SERVER_NAME=$DOMAIN
+fi
+
 cat > /etc/nginx/sites-available/${DOMAIN}.conf <<EOL
 server {
-    server_name $DOMAIN www.$DOMAIN;
+    server_name $SERVER_NAME;
     proxy_set_header Host \$host;
     proxy_set_header X-Real-IP \$remote_addr;
     proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
@@ -94,7 +101,10 @@ echo '  > Restart nginx...'
 service nginx restart
 
 # Instal SSL
-if [ "$SSL" -eq "1" ]; then
-  echo '  > Install SSL...'
+echo '  > Install SSL...'
+
+if [ "$WWW" -eq "1" ]
   certbot --nginx --redirect --expand -d ${DOMAIN} -d www.${DOMAIN} --register-unsafely-without-email --non-interactive --agree-tos
+else
+  certbot --nginx --redirect -d ${DOMAIN} --register-unsafely-without-email --non-interactive --agree-tos
 fi
