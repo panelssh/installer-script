@@ -22,12 +22,16 @@ echo ''
 
 # Update repository
 echo '  > Upgrading apt repositories...'
-apt update
-apt upgrade -y
+apt -y update
+apt -y upgrade
+
+# Install curl
+echo '  > Install make...'
+apt install -y curl
 
 # Install make
 echo '  > Install make...'
-apt install make -y
+apt install -y make
 
 # Install docker
 echo '  > Install docker...'
@@ -42,15 +46,15 @@ chmod +x /usr/local/bin/docker-compose
 
 # Install htop
 echo '  > Install Htop...'
-apt install hyop -y
+apt install -y htop
 
 # Install nginx
 echo '  > Install nginx...'
-apt install nginx -y
+apt install -y nginx
 
 # Install certbot
 echo '  > Install lets encrypt...'
-apt install certbot python3-certbot-nginx -y
+apt install -y certbot python3-certbot-nginx
 
 # Install doctl
 echo '  > Install doctl...'
