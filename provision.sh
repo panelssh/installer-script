@@ -23,7 +23,6 @@ echo ''
 # Update repository
 echo '  > Upgrading apt repositories...'
 apt -y update
-apt -y upgrade
 
 # Install curl
 echo '  > Install make...'
